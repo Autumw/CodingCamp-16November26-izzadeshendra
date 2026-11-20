@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo Life Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div class="dashboard-grid">
+
+    <!-- Greeting Widget -->
+    <section id="greeting" class="widget">
+      <div id="greeting-time"></div>
+      <div id="greeting-date"></div>
+      <div id="greeting-text"></div>
+    </section>
+
+    <!-- Focus Timer Widget -->
+    <section id="timer" class="widget">
+      <div id="timer-display">25:00</div>
+      <div id="timer-notification"></div>
+      <div class="timer-controls">
+        <button id="timer-start">Start</button>
+        <button id="timer-stop">Stop</button>
+        <button id="timer-reset">Reset</button>
+      </div>
+    </section>
+
+    <!-- To-Do List Widget -->
+    <section id="todo" class="widget">
+      <form id="todo-form">
+        <input id="todo-input" type="text" placeholder="Add a new task…" maxlength="200" autocomplete="off">
+        <button type="submit">Add</button>
+      </form>
+      <p id="todo-error" class="error-msg" aria-live="polite"></p>
+      <ul id="todo-list"></ul>
+    </section>
+
+    <!-- Quick Links Widget -->
+    <section id="quick-links" class="widget">
+      <form id="links-form">
+        <input id="links-label-input" type="text" placeholder="Label" maxlength="50" autocomplete="off">
+        <input id="links-url-input" type="text" placeholder="https://example.com" autocomplete="off">
+        <button type="submit">Add Link</button>
+      </form>
+      <p id="links-error" class="error-msg" aria-live="polite"></p>
+      <div id="quick-links-list"></div>
+    </section>
+
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

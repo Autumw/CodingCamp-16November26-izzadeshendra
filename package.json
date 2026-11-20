@@ -1,0 +1,12 @@
+{
+  "name": "todo-life-dashboard",
+  "version": "1.0.0",
+  "description": "Todo Life Dashboard — self-contained web app",
+  "scripts": {
+    "test:utils-prop": "node tests/utils.property.test.js",
+    "test": "node tests/utils.property.test.js"
+  },
+  "devDependencies": {
+    "fast-check": "^3.22.0"
+  }
+}

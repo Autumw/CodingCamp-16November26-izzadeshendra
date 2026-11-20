@@ -1,0 +1,468 @@
+{
+  "pbtResults": {
+    "2.3 Write property tests for Utils (Properties 7, 9, 10)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795181375492
+    },
+    "4.3 Write property test for timer display formatting (Property 11)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795182040193
+    },
+    "6.2 Write property tests for task data layer (Properties 1, 3, 4)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795182635126
+    },
+    "6.4 Write property test for toggle involution (Property 8)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795182986917
+    },
+    "8.2 Write property tests for quick-link data layer (Properties 2, 5, 6)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795183556875
+    }
+  },
+  "executionHistory": {
+    "1. Scaffold project structure and HTML shell": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176861636
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176873101
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177459513
+      }
+    ],
+    "2.1 Implement `Utils.formatTime`, `Utils.formatDate`, and `Utils.getGreeting`": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176862674
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177472593
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177741157
+      }
+    ],
+    "2.2 Implement `Utils.storage` and `Utils.escapeHtml`": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176862855
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177480005
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177751017
+      }
+    ],
+    "2.3 Write property tests for Utils (Properties 7, 9, 10)": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176862997
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177765539
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181682388
+      }
+    ],
+    "2.4 Write unit tests for Utils": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176863117
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177773949
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181689812
+      }
+    ],
+    "3.1 Implement `GreetingWidget.init()`": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176863266
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177780974
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181698746
+      }
+    ],
+    "4.1 Implement the timer state machine and countdown logic": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176863367
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795177788837
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181707297
+      }
+    ],
+    "4.2 Implement timer display formatting and UI bindings": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176863468
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181714042
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182384695
+      }
+    ],
+    "4.3 Write property test for timer display formatting (Property 11)": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176863587
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181720909
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182397507
+      }
+    ],
+    "4.4 Write unit tests for timer state machine": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176863689
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181727414
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182411810
+      }
+    ],
+    "5. Checkpoint — Ensure Utils, Greeting, and Timer tests pass": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176863781
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184267926
+      }
+    ],
+    "6.1 Implement task data layer: `_add`, `_sync`, `_render`, and `init` load": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176863920
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181734026
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182419535
+      }
+    ],
+    "6.2 Write property tests for task data layer (Properties 1, 3, 4)": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864016
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182448215
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182860122
+      }
+    ],
+    "6.3 Implement task complete/incomplete toggle and delete": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864107
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182456551
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182868630
+      }
+    ],
+    "6.4 Write property test for toggle involution (Property 8)": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864202
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182888309
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795183622459
+      }
+    ],
+    "6.5 Implement inline edit: `_startEdit`, `_confirmEdit`, `_cancelEdit`": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864294
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182897319
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795183630879
+      }
+    ],
+    "6.6 Write unit tests for Todo Widget": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864384
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795183662548
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184055689
+      }
+    ],
+    "7. Checkpoint — Ensure Todo Widget tests pass": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864480
+      }
+    ],
+    "8.1 Implement quick-link data layer: `_add`, `_sync`, `_render`, and `init` load": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864566
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182464268
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182876533
+      }
+    ],
+    "8.2 Write property tests for quick-link data layer (Properties 2, 5, 6)": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864673
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182906209
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795183638504
+      }
+    ],
+    "8.3 Implement quick-link delete": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864763
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182914725
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795183646424
+      }
+    ],
+    "8.4 Write unit tests for Quick Links Widget": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864869
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795183669988
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184062225
+      }
+    ],
+    "9.1 Apply complete CSS styling": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176864959
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795183677549
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184068991
+      }
+    ],
+    "9.2 Verify responsiveness and 100 ms interaction latency": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176865060
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184082874
+      },
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184251756
+      }
+    ],
+    "10. Final checkpoint — Full suite green": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795176865156
+      }
+    ],
+    "2. Implement the Utils module": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181689921
+      }
+    ],
+    "3. Implement the Greeting Widget": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795181698863
+      }
+    ],
+    "4. Implement the Timer Widget": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795182411950
+      }
+    ],
+    "6. Implement the Todo Widget": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184055819
+      }
+    ],
+    "8. Implement the Quick Links Widget": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184062333
+      }
+    ],
+    "9. Visual design and cross-browser polish": [
+      {
+        "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
+        "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
+        "timestamp": 1795184251893
+      }
+    ]
+  }
+}
