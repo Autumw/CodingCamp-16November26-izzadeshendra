@@ -71,7 +71,7 @@ Build a self-contained, three-file web application (index.html, css/styles.css, 
     - Start while RUNNING is a no-op
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.8, 2.9_
 
-- [ ] 5. Checkpoint — Ensure Utils, Greeting, and Timer tests pass
+- [x] 5. Checkpoint — Ensure Utils, Greeting, and Timer tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 6. Implement the Todo Widget
