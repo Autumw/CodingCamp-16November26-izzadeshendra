@@ -34,10 +34,11 @@ todo-life-dashboard/
 
 ```
 app.js
-├── Utils           — shared helpers (date formatting, DOM helpers, storage wrapper)
-├── GreetingWidget  — time/date/greeting display and tick loop
+├── Utils           — shared helpers (date formatting, DOM helpers, storage wrapper, greeting formatter)
+├── ThemeWidget     — light/dark theme toggle and localStorage persistence; flash-prevention inline script in <head>
+├── GreetingWidget  — time/date/greeting display, tick loop, and custom name management
 ├── TimerWidget     — countdown state machine and UI bindings
-├── TodoWidget      — task CRUD, validation, localStorage sync
+├── TodoWidget      — task CRUD, validation, sort, localStorage sync
 └── QuickLinksWidget— quick-link CRUD, validation, localStorage sync
 ```
 
@@ -70,20 +71,29 @@ Reads happen once at page load (`init()`). Writes happen on every mutation.
 Utils.formatTime(date)          // → "HH:MM"  (24-hour)
 Utils.formatDate(date)          // → "Weekday, DD Month YYYY"
 Utils.getGreeting(hour)         // → "Good Morning" | "Good Afternoon" | "Good Evening"
+Utils.formatGreeting(hour, name) // → "[Greeting], [Name]" if name non-empty; "[Greeting]" otherwise
 Utils.storage.get(key)          // → parsed JSON or null; swallows errors
 Utils.storage.set(key, value)   // → void; swallows QuotaExceededError
 Utils.escapeHtml(str)           // → HTML-safe string (prevents XSS in task titles / link labels)
 ```
 
+localStorage keys managed by Utils: `"tdl_name"` (string, 1–50 chars), `"tdl_theme"` (`"light"` | `"dark"`).
+
 ### GreetingWidget
 
-Internal state: none (reads `new Date()` on each tick).
+Internal state: `name` (string, loaded from `localStorage` key `"tdl_name"`; empty string when not set).
 
 ```js
-GreetingWidget.init()           // Renders immediately; starts 1-minute interval aligned to wall clock
+GreetingWidget.init()           // Renders immediately; starts 1-minute interval aligned to wall clock; loads saved name
+GreetingWidget._saveName(name)  // Validates (1–50 chars, non-empty after trim); writes to localStorage; re-renders greeting
+GreetingWidget._renderName()    // Updates #greeting-text using Utils.formatGreeting(hour, this.name)
 ```
 
-DOM targets: `#greeting-time`, `#greeting-date`, `#greeting-text`.
+DOM targets: `#greeting-time`, `#greeting-date`, `#greeting-text`, `#greeting-name-input`, `#greeting-name-btn`, `#greeting-name-display`.
+
+- `#greeting-name-display` shows the current saved name and a "Change" button when a name is saved; it is hidden when no name is set.
+- `#greeting-name-input` / `#greeting-name-btn` are the entry control (an `<input>` + submit button). The input is pre-filled with the saved name when the change-name control is activated.
+- On submission the widget validates the name (non-empty after trim, ≤ 50 characters); on failure an inline error message is shown and no state changes.
 
 The tick is scheduled with `setTimeout` to fire at the top of the next minute (using `60000 − (ms % 60000)`), then switches to `setInterval` with a 60 000 ms period to avoid drift.
 
@@ -140,6 +150,39 @@ QuickLinksWidget._render()          // Full re-render of #quick-links-list from 
 
 DOM targets: `#links-form`, `#links-label-input`, `#links-url-input`, `#links-error`, `#quick-links-list`.
 
+### ThemeWidget
+
+Internal state: `theme` — `"light"` (default) | `"dark"`, loaded from `localStorage` key `"tdl_theme"`.
+
+```js
+ThemeWidget.init()              // Reads saved theme (or defaults to "light"); applies data-theme attribute; mounts toggle listener
+ThemeWidget._apply(theme)       // Sets data-theme="light"|"dark" on <html>; writes to localStorage key "tdl_theme"
+ThemeWidget._toggle()           // Flips between "light" and "dark"; calls _apply()
+```
+
+DOM targets: `#theme-toggle` (button in page header).
+
+**Flash prevention:** A minimal inline `<script>` in `<head>` reads `localStorage.getItem("tdl_theme")` synchronously and sets `document.documentElement.setAttribute("data-theme", ...)` before the browser paints. This runs before the main `app.js` loads and before any CSS rules are applied, ensuring no flash of the opposite theme.
+
+CSS theming strategy: all colour and surface values are declared as CSS custom properties on `:root` (light defaults). A `[data-theme="dark"]` block on `:root` or `html` overrides those variables. No JavaScript manipulates individual element styles; every theme change is achieved by toggling the single attribute.
+
+### TodoWidget sort extension
+
+`TodoWidget` gains a `sortOrder` state (string: `"createdAt"` | `"completion"`) in addition to the existing `tasks[]` array.
+
+```js
+TodoWidget._setSort(order)      // Validates order value; updates sortOrder; writes to localStorage key "tdl_sort"; calls _render()
+TodoWidget._sortedTasks()       // Returns a sorted copy of tasks[] without mutating the source array:
+                                //   "createdAt"  → ascending by task.createdAt
+                                //   "completion" → incomplete first (preserving insertion order within group), then complete
+```
+
+`_render()` now calls `_sortedTasks()` to obtain the display order before building the DOM list. The canonical `tasks[]` array always retains insertion order; sort is applied only at render time.
+
+DOM targets: `#todo-sort-select` (a `<select>` element with two `<option>` values: `"createdAt"` and `"completion"`).
+
+The saved sort order is loaded during `TodoWidget.init()` from localStorage key `"tdl_sort"`. If no value is saved, `sortOrder` defaults to `"createdAt"`.
+
 ---
 
 ## Data Models
@@ -169,6 +212,27 @@ localStorage key: `"tdl_tasks"` — JSON array of Task objects.
 
 localStorage key: `"tdl_links"` — JSON array of QuickLink objects.
 
+### Name (GreetingWidget)
+
+```js
+// Stored as a plain string directly (not wrapped in an object)
+localStorage key: "tdl_name"   // string, 1–50 characters; absent when no name has been saved
+```
+
+### Theme (ThemeWidget)
+
+```js
+// Stored as a plain string directly
+localStorage key: "tdl_theme"  // "light" | "dark"; absent when no preference has been saved (defaults to "light")
+```
+
+### Sort Order (TodoWidget)
+
+```js
+// Stored as a plain string directly
+localStorage key: "tdl_sort"   // "createdAt" | "completion"; absent when no preference saved (defaults to "createdAt")
+```
+
 ### Validation Rules Summary
 
 | Field         | Rule                                                      |
@@ -178,6 +242,9 @@ localStorage key: `"tdl_links"` — JSON array of QuickLink objects.
 | Link label    | Non-empty after trim; ≤ 50 chars                         |
 | Link URL      | Non-empty; starts with `http://` or `https://`           |
 | Link count    | ≤ 20 links                                               |
+| User name     | Non-empty after trim; ≤ 50 chars                         |
+| Sort order    | Must be `"createdAt"` or `"completion"`                  |
+| Theme         | Must be `"light"` or `"dark"`                            |
 
 ---
 
@@ -251,6 +318,27 @@ localStorage key: `"tdl_links"` — JSON array of QuickLink objects.
 
 **Validates: Requirements 2.7**
 
+### Property 12: Custom name localStorage round-trip
+
+*For any* valid name string (non-empty after trim, ≤ 50 characters), writing it to `localStorage` via `GreetingWidget._saveName()` and then reading it back must produce a value equal to the original name.
+
+**Validates: Requirements 7.5, 7.6**
+
+### Property 13: Theme preference localStorage round-trip
+
+*For any* theme value in `{"light", "dark"}`, writing it to `localStorage` via `ThemeWidget._apply()` and then reading it back must produce the same theme identifier.
+
+**Validates: Requirements 8.4, 8.5**
+
+### Property 14: Sort stability
+
+*For any* array of Task objects:
+
+- When sorted by **"Completion Status"**, every incomplete task (`completed === false`) must appear before every complete task (`completed === true`), and the relative insertion order (by `createdAt`) must be preserved within each group.
+- When sorted by **"Creation Date"**, tasks must appear in ascending `createdAt` order, and no task may be omitted or duplicated.
+
+**Validates: Requirements 9.2, 9.3, 9.8**
+
 ---
 
 ## Error Handling
@@ -279,7 +367,11 @@ All validation runs client-side before any state mutation. On failure:
 
 ### XSS Prevention
 
-Task titles and Quick Link labels are stored as plain strings. When inserting into the DOM, `Utils.escapeHtml()` converts `<`, `>`, `&`, `"`, and `'` to their HTML entities. URLs are validated to start with `http://` or `https://`, preventing `javascript:` protocol injection.
+Task titles and Quick Link labels are stored as plain strings. When inserting into the DOM, `Utils.escapeHtml()` converts `<`, `>`, `&`, `"`, and `'` to their HTML entities. URLs are validated to start with `http://` or `https://`, preventing `javascript:` protocol injection. User names are stored as plain strings and HTML-escaped before DOM insertion via the same mechanism.
+
+### Theme Flash Prevention
+
+If the inline `<script>` in `<head>` encounters a `localStorage` read error (e.g., storage is blocked in a sandboxed context), it silently falls back to `"light"` without throwing. This guarantees the page always renders with a valid theme even when storage is unavailable.
 
 ---
 
@@ -315,6 +407,9 @@ Because this feature has no pure algorithmic core that can be driven by an arbit
 | P9 — `formatTime` format | Any Date produces valid HH:MM | `fc.date()` |
 | P10 — `formatDate` format | Any Date produces valid "Weekday, DD Month YYYY" | `fc.date()` |
 | P11 — Timer display format | Any seconds 0–1500 produces valid MM:SS | `fc.integer({min:0, max:1500})` |
+| P12 — Name round-trip | Save name → read back → same value | `fc.string({minLength:1, maxLength:50}).filter(s => s.trim().length > 0)` |
+| P13 — Theme round-trip | Save theme → read back → same value | `fc.constantFrom("light", "dark")` |
+| P14 — Sort stability | Any task array sorted by completion places incomplete before complete with stable relative order; sorted by createdAt yields ascending order | `fc.array(fc.record({id: fc.uuid(), title: fc.string({minLength:1}), completed: fc.boolean(), createdAt: fc.integer({min:0})}))` |
 
 ### Unit Tests (Example-Based)
 
@@ -330,6 +425,18 @@ Cover the following concrete scenarios:
 - Quick Link add with `http://` and `https://` succeeds; `ftp://` and `javascript:` are rejected.
 - Quick Links cap: 20th link succeeds, 21st is rejected.
 
+**New unit tests for Requirements 7, 8, 9:**
+
+- `Utils.formatGreeting(hour, name)` returns `"Good Morning, Alex"` at hour 8 with name `"Alex"`.
+- `Utils.formatGreeting(hour, "")` returns `"Good Morning"` (no trailing comma or space).
+- `GreetingWidget._saveName("")` and `GreetingWidget._saveName("   ")` both reject with an inline error message.
+- `GreetingWidget._saveName("A".repeat(51))` is rejected; `"A".repeat(50)` is accepted.
+- `ThemeWidget._apply("dark")` sets `data-theme="dark"` on `<html>`; `_apply("light")` sets `data-theme="light"`.
+- `ThemeWidget._toggle()` from `"light"` produces `"dark"`; `_toggle()` from `"dark"` produces `"light"`.
+- `TodoWidget._sortedTasks()` with `sortOrder = "completion"` returns all incomplete tasks before all complete tasks.
+- `TodoWidget._sortedTasks()` with `sortOrder = "createdAt"` returns tasks ordered by ascending `createdAt`.
+- `TodoWidget._setSort("completion")` persists `"completion"` to `localStorage` key `"tdl_sort"`.
+
 ### Integration / End-to-End Tests (Manual Checklist)
 
 Run against `index.html` opened as a local file in Chrome, Firefox, Edge, and Safari:
@@ -341,3 +448,12 @@ Run against `index.html` opened as a local file in Chrome, Firefox, Edge, and Sa
 5. Let timer reach 00:00 — notification appears; Reset clears it.
 6. Add and delete quick links — buttons appear/disappear; clicking opens new tab.
 7. No uncaught exceptions in browser console during any above interaction.
+
+**New integration checks for Requirements 7, 8, 9:**
+
+8. Enter a name in the greeting widget — greeting updates to "[Greeting], [Name]"; close tab, reopen — personalized greeting persists.
+9. Submit an empty name — validation message appears; greeting unchanged.
+10. Toggle theme to dark — all widgets switch to dark theme within 100 ms; close tab, reopen — dark theme applied immediately with no flash.
+11. Toggle theme back to light — all widgets switch to light theme.
+12. Change sort to "Completion Status" — completed tasks move below incomplete tasks; close tab, reopen — sort preference restored.
+13. Add a task while "Completion Status" sort is active — task list re-applies the sort order after the addition.

@@ -423,6 +423,16 @@
         "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
         "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
         "timestamp": 1795184251756
+      },
+      {
+        "executionId": "cf9af252-1a4b-4256-b24c-7bd42e21c37f",
+        "chatSessionId": "sess_4847c759-a774-4412-829c-fb8a393b4d90",
+        "timestamp": 1795222309009
+      },
+      {
+        "executionId": "cf9af252-1a4b-4256-b24c-7bd42e21c37f",
+        "chatSessionId": "sess_4847c759-a774-4412-829c-fb8a393b4d90",
+        "timestamp": 1795222432053
       }
     ],
     "10. Final checkpoint — Full suite green": [
@@ -472,6 +482,100 @@
         "executionId": "ce334692-ecb0-4193-b14f-fcf6aaca101a",
         "chatSessionId": "sess_5ecf1fc0-9b9a-4e59-92f1-ee3eaa4ff228",
         "timestamp": 1795184251893
+      },
+      {
+        "executionId": "cf9af252-1a4b-4256-b24c-7bd42e21c37f",
+        "chatSessionId": "sess_4847c759-a774-4412-829c-fb8a393b4d90",
+        "timestamp": 1795222432185
+      }
+    ],
+    "11.1 Implement `ThemeWidget.init()`, `_apply()`, and `_toggle()`": [
+      {
+        "executionId": "eda34ca6-bf1f-45a1-947e-6232d3116a7b",
+        "chatSessionId": "sess_0b57cece-42cf-4ea8-9139-41f5f229e512",
+        "timestamp": 1795220856860
+      },
+      {
+        "executionId": "eda34ca6-bf1f-45a1-947e-6232d3116a7b",
+        "chatSessionId": "sess_0b57cece-42cf-4ea8-9139-41f5f229e512",
+        "timestamp": 1795221084102
+      }
+    ],
+    "11. Implement the Theme Widget (Light / Dark Mode)": [
+      {
+        "executionId": "eda34ca6-bf1f-45a1-947e-6232d3116a7b",
+        "chatSessionId": "sess_0b57cece-42cf-4ea8-9139-41f5f229e512",
+        "timestamp": 1795221084224
+      }
+    ],
+    "12.1 Implement `GreetingWidget._saveName()` and name UI controls": [
+      {
+        "executionId": "e287f8ff-ef32-4a30-a45c-dc1c17dcec5e",
+        "chatSessionId": "sess_1b5a7689-1851-4241-a771-4d33519b8c50",
+        "timestamp": 1795221124906
+      },
+      {
+        "executionId": "e287f8ff-ef32-4a30-a45c-dc1c17dcec5e",
+        "chatSessionId": "sess_1b5a7689-1851-4241-a771-4d33519b8c50",
+        "timestamp": 1795221343765
+      },
+      {
+        "executionId": "da5cba1b-6228-4261-a9d4-2817bb7266e7",
+        "chatSessionId": "sess_57bcd02b-b547-40a0-a7a3-d647db4d8068",
+        "timestamp": 1795221366228
+      },
+      {
+        "executionId": "da5cba1b-6228-4261-a9d4-2817bb7266e7",
+        "chatSessionId": "sess_57bcd02b-b547-40a0-a7a3-d647db4d8068",
+        "timestamp": 1795221480514
+      }
+    ],
+    "12. Extend Greeting Widget with custom name": [
+      {
+        "executionId": "e287f8ff-ef32-4a30-a45c-dc1c17dcec5e",
+        "chatSessionId": "sess_1b5a7689-1851-4241-a771-4d33519b8c50",
+        "timestamp": 1795221343910
+      }
+    ],
+    "13.1 Implement `TodoWidget._setSort()` and `TodoWidget._sortedTasks()`": [
+      {
+        "executionId": "1693ec69-7830-425f-a207-b6b04b00b5bd",
+        "chatSessionId": "sess_8cfd701b-d041-4a63-881a-027055f45468",
+        "timestamp": 1795221599978
+      },
+      {
+        "executionId": "1693ec69-7830-425f-a207-b6b04b00b5bd",
+        "chatSessionId": "sess_8cfd701b-d041-4a63-881a-027055f45468",
+        "timestamp": 1795221920502
+      },
+      {
+        "executionId": "4bfb1851-c088-429f-ac90-187c57b0cca3",
+        "chatSessionId": "sess_eee7adb5-aac9-4d8d-85fb-44066143946b",
+        "timestamp": 1795221934339
+      },
+      {
+        "executionId": "4bfb1851-c088-429f-ac90-187c57b0cca3",
+        "chatSessionId": "sess_eee7adb5-aac9-4d8d-85fb-44066143946b",
+        "timestamp": 1795222064872
+      }
+    ],
+    "13. Extend Todo Widget with sort control": [
+      {
+        "executionId": "1693ec69-7830-425f-a207-b6b04b00b5bd",
+        "chatSessionId": "sess_8cfd701b-d041-4a63-881a-027055f45468",
+        "timestamp": 1795221920650
+      }
+    ],
+    "9.1 Apply complete CSS styling including dark mode": [
+      {
+        "executionId": "cf9af252-1a4b-4256-b24c-7bd42e21c37f",
+        "chatSessionId": "sess_4847c759-a774-4412-829c-fb8a393b4d90",
+        "timestamp": 1795222114598
+      },
+      {
+        "executionId": "cf9af252-1a4b-4256-b24c-7bd42e21c37f",
+        "chatSessionId": "sess_4847c759-a774-4412-829c-fb8a393b4d90",
+        "timestamp": 1795222301208
       }
     ]
   }

@@ -117,3 +117,54 @@ The Todo Life Dashboard is a personal productivity web application built with HT
 3. THE Dashboard SHALL apply text styling using no more than two font families across all widgets.
 4. THE Dashboard SHALL apply text and background colors such that every text element meets a contrast ratio of at least 4.5:1 against its background, as defined by WCAG 2.1 AA.
 5. THE Dashboard SHALL use a layout that organizes the four widgets (Greeting_Widget, Timer, Task_List, Quick_Links_Panel) such that each widget is enclosed in a visually distinct container separated from adjacent widgets by a visible margin or border.
+
+---
+
+### Requirement 7: Custom Name in Greeting
+
+**User Story:** As a user, I want to enter my name so that the greeting addresses me personally, and I want that name to persist across browser sessions so I do not have to re-enter it each time I open the Dashboard.
+
+#### Acceptance Criteria
+
+1. THE Greeting_Widget SHALL display a name-entry control that allows the user to input a name of 1–50 characters.
+2. WHEN the user submits a non-empty name of 1–50 characters via the name-entry control, THE Greeting_Widget SHALL update the greeting to include the name in the format "[Greeting], [Name]" (e.g., "Good Morning, Alex").
+3. IF the user submits an empty name via the name-entry control, THEN THE Greeting_Widget SHALL reject the submission and display an inline validation message.
+4. IF the user submits a name exceeding 50 characters via the name-entry control, THEN THE Greeting_Widget SHALL reject the submission and display an inline validation message stating the maximum length.
+5. WHEN a name has been saved and the Dashboard page loads, THE Greeting_Widget SHALL display the personalized greeting using the saved name without requiring user interaction.
+6. WHEN the user submits a valid name, THE Greeting_Widget SHALL write the name to Local_Storage within 500 milliseconds.
+7. WHEN the Dashboard page loads and no name has been saved in Local_Storage, THE Greeting_Widget SHALL display the time-of-day greeting without a personal name (e.g., "Good Morning").
+8. WHEN the user activates the change-name control, THE Greeting_Widget SHALL present the name-entry control pre-filled with the currently saved name so the user can update it.
+
+---
+
+### Requirement 8: Light / Dark Mode
+
+**User Story:** As a user, I want to switch between a light theme and a dark theme, so that I can use the Dashboard comfortably in different lighting conditions, and I want my preference remembered across sessions.
+
+#### Acceptance Criteria
+
+1. THE Dashboard SHALL provide a toggle control that switches the active theme between light mode and dark mode.
+2. WHEN the user activates the theme toggle control while light mode is active, THE Dashboard SHALL apply the dark theme to all visible elements within 100 milliseconds.
+3. WHEN the user activates the theme toggle control while dark mode is active, THE Dashboard SHALL apply the light theme to all visible elements within 100 milliseconds.
+4. WHEN the user activates the theme toggle control, THE Dashboard SHALL write the selected theme identifier to Local_Storage within 500 milliseconds.
+5. WHEN the Dashboard page loads, THE Dashboard SHALL read the saved theme from Local_Storage and apply it before rendering any visible content, so that no flash of the opposite theme occurs.
+6. WHEN the Dashboard page loads and no theme preference has been saved in Local_Storage, THE Dashboard SHALL apply the light theme by default.
+7. WHILE dark mode is active, THE Dashboard SHALL apply text and background colors such that every text element meets a contrast ratio of at least 4.5:1 against its background, as defined by WCAG 2.1 AA.
+8. WHILE light mode is active, THE Dashboard SHALL apply text and background colors such that every text element meets a contrast ratio of at least 4.5:1 against its background, as defined by WCAG 2.1 AA.
+
+---
+
+### Requirement 9: Sort Tasks
+
+**User Story:** As a user, I want to sort my to-do list by creation date or completion status, so that I can focus on the most relevant tasks and maintain that preference across sessions.
+
+#### Acceptance Criteria
+
+1. THE Task_List SHALL provide a sort-order control offering at minimum two options: "Creation Date" (insertion order) and "Completion Status" (incomplete tasks before complete tasks).
+2. WHEN the user selects "Creation Date" from the sort-order control, THE Task_List SHALL display all Tasks in the order they were originally added, with the oldest task first.
+3. WHEN the user selects "Completion Status" from the sort-order control, THE Task_List SHALL display all incomplete Tasks before all complete Tasks, preserving insertion order within each group.
+4. WHEN the user changes the sort order, THE Task_List SHALL re-render the task list in the newly selected order within 100 milliseconds.
+5. WHEN the user changes the sort order, THE Task_List SHALL write the selected sort-order identifier to Local_Storage within 500 milliseconds.
+6. WHEN the Dashboard page loads, THE Task_List SHALL read the saved sort-order identifier from Local_Storage and apply it when rendering Tasks.
+7. WHEN the Dashboard page loads and no sort-order preference has been saved in Local_Storage, THE Task_List SHALL default to "Creation Date" order.
+8. WHEN a Task is added, updated, completed, or deleted while a sort order other than "Creation Date" is active, THE Task_List SHALL re-apply the active sort order to the updated Task collection before rendering.

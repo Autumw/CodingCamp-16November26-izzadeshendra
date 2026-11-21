@@ -86,52 +86,195 @@ var Utils = (function () {
       .replace(/'/g, '&#39;');
   }
 
+  /**
+   * Returns a personalised greeting string.
+   * When name is a non-empty string after trimming, returns "[Greeting], [Name]".
+   * When name is absent or empty after trimming, returns "[Greeting]" only.
+   * @param {number} hour  Integer in [0, 23]
+   * @param {string} [name]  Optional saved name
+   * @returns {string}
+   */
+  function formatGreeting(hour, name) {
+    var greeting = getGreeting(hour);
+    var trimmed  = (typeof name === 'string') ? name.trim() : '';
+    return trimmed.length > 0 ? greeting + ', ' + trimmed : greeting;
+  }
+
   return {
-    formatTime:  formatTime,
-    formatDate:  formatDate,
-    getGreeting: getGreeting,
-    storage:     storage,
-    escapeHtml:  escapeHtml
+    formatTime:     formatTime,
+    formatDate:     formatDate,
+    getGreeting:    getGreeting,
+    formatGreeting: formatGreeting,
+    storage:        storage,
+    escapeHtml:     escapeHtml
   };
 })();
 
 /* ─── GreetingWidget ────────────────────────────────────────────────────────── */
 var GreetingWidget = (function () {
   /* Renders time, date, and greeting; runs a 1-minute tick loop aligned to
-     the top of each wall-clock minute to avoid cumulative drift. */
+     the top of each wall-clock minute to avoid cumulative drift.
+     Also manages a saved name (localStorage key "tdl_name") with inline
+     entry/validation/change controls.                                        */
+
+  /* ── Internal state ───────────────────────────────────────────────────────── */
+  var name = '';   /* Current saved name; empty string means no name set */
+
+  /* ── Private helpers ──────────────────────────────────────────────────────── */
 
   /**
-   * Reads the current time and writes to the three greeting DOM elements.
+   * Reads the current time and writes to the time and date greeting DOM elements.
+   * Does NOT update #greeting-text — that is handled by _renderName() so that
+   * the personalised greeting is always current.
    */
   function tick() {
-    var now = new Date();
-    var timeEl     = document.getElementById('greeting-time');
-    var dateEl     = document.getElementById('greeting-date');
-    var greetingEl = document.getElementById('greeting-text');
-    if (timeEl)     timeEl.textContent     = Utils.formatTime(now);
-    if (dateEl)     dateEl.textContent     = Utils.formatDate(now);
-    if (greetingEl) greetingEl.textContent = Utils.getGreeting(now.getHours());
+    var now    = new Date();
+    var timeEl = document.getElementById('greeting-time');
+    var dateEl = document.getElementById('greeting-date');
+    if (timeEl) timeEl.textContent = Utils.formatTime(now);
+    if (dateEl) dateEl.textContent = Utils.formatDate(now);
+    _renderName();
   }
+
+  /**
+   * Updates #greeting-text using Utils.formatGreeting(hour, name).
+   * Shows #greeting-name-display (with the saved name and a "Change" button)
+   * when a name is set; hides it when the name is empty.
+   * Requirements: 7.2, 7.5, 7.7
+   */
+  function _renderName() {
+    var now        = new Date();
+    var greetingEl = document.getElementById('greeting-text');
+    if (greetingEl) {
+      greetingEl.textContent = Utils.formatGreeting(now.getHours(), name);
+    }
+
+    var displayEl = document.getElementById('greeting-name-display');
+    if (displayEl) {
+      if (name.length > 0) {
+        /* Show saved-name display; rebuild its contents so the name is current */
+        displayEl.style.display = '';
+        displayEl.innerHTML     = '';
+
+        var nameSpan = document.createElement('span');
+        nameSpan.textContent = name;
+
+        var changeBtn = document.createElement('button');
+        changeBtn.type        = 'button';
+        changeBtn.textContent = 'Change';
+        /* Requirement 7.8: pre-fill input with current name on "Change" click */
+        changeBtn.addEventListener('click', function () {
+          var inputEl = document.getElementById('greeting-name-input');
+          if (inputEl) {
+            inputEl.value = name;
+            inputEl.focus();
+          }
+        });
+
+        displayEl.appendChild(nameSpan);
+        displayEl.appendChild(changeBtn);
+      } else {
+        displayEl.style.display = 'none';
+      }
+    }
+  }
+
+  /**
+   * Validates name, persists to localStorage, and re-renders the greeting.
+   * Rejects names that are empty after trimming (Req 7.3) or exceed 50 chars
+   * (Req 7.4). On success, writes to localStorage key "tdl_name" via
+   * Utils.storage.set within 500 ms (Req 7.6) and calls _renderName().
+   * @param {string} rawName  Raw value from the input element
+   */
+  function _saveName(rawName) {
+    var errorEl = document.getElementById('greeting-name-error');
+    function showError(msg) {
+      if (errorEl) errorEl.textContent = msg;
+    }
+    function clearError() {
+      if (errorEl) errorEl.textContent = '';
+    }
+
+    var trimmed = (typeof rawName === 'string') ? rawName.trim() : '';
+
+    if (trimmed.length === 0) {
+      showError('Name cannot be empty.');
+      return;
+    }
+
+    if (trimmed.length > 50) {
+      showError('Name must be 50 characters or fewer.');
+      return;
+    }
+
+    /* Validation passed */
+    clearError();
+    name = trimmed;
+    Utils.storage.set('tdl_name', name);   /* Requirement 7.6: within 500 ms (synchronous) */
+    _renderName();
+  }
+
+  /* ── Public API ───────────────────────────────────────────────────────────── */
 
   return {
     /**
-     * Renders immediately, then schedules ticks aligned to the top of each
-     * minute: one setTimeout to the next minute boundary, then setInterval
-     * at exactly 60 000 ms for all subsequent ticks.
+     * Loads saved name from localStorage; calls _renderName(); renders time
+     * and date immediately; then schedules ticks aligned to the top of each
+     * minute. Mounts submit handler on #greeting-name-btn.
+     * Requirements: 7.1, 7.5, 7.7
      */
     init: function () {
-      // Render immediately on call.
+      /* Load persisted name (Requirement 7.5 / 7.7) */
+      var saved = Utils.storage.get('tdl_name');
+      name = (typeof saved === 'string' && saved.trim().length > 0) ? saved.trim() : '';
+
+      /* Render immediately */
       tick();
 
-      // Calculate milliseconds remaining until the top of the next minute.
-      var now = new Date();
+      /* Schedule subsequent ticks aligned to wall-clock minute boundaries */
+      var now            = new Date();
       var msToNextMinute = 60000 - (now.getMilliseconds() + now.getSeconds() * 1000) % 60000;
 
       setTimeout(function () {
         tick();
         setInterval(tick, 60000);
       }, msToNextMinute);
-    }
+
+      /* Mount submit handler on #greeting-name-btn (Requirement 7.1) */
+      var btn = document.getElementById('greeting-name-btn');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          var inputEl = document.getElementById('greeting-name-input');
+          if (inputEl) {
+            _saveName(inputEl.value);
+            /* Clear input only on success (error element empty after _saveName) */
+            var errorEl = document.getElementById('greeting-name-error');
+            if (errorEl && errorEl.textContent === '') {
+              inputEl.value = '';
+            }
+          }
+        });
+      }
+
+      /* Also support submitting via Enter inside the input */
+      var inputEl = document.getElementById('greeting-name-input');
+      if (inputEl) {
+        inputEl.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            _saveName(inputEl.value);
+            var errorEl = document.getElementById('greeting-name-error');
+            if (errorEl && errorEl.textContent === '') {
+              inputEl.value = '';
+            }
+          }
+        });
+      }
+    },
+
+    /* Expose internal methods for testing */
+    _saveName:   _saveName,
+    _renderName: _renderName,
+    getName:     function () { return name; }
   };
 })();
 
@@ -316,7 +459,8 @@ var TodoWidget = (function () {
      _toggleComplete, _startEdit, _delete — implemented fully in tasks 6.3/6.5). */
 
   /* ── Internal state ───────────────────────────────────────────────────────── */
-  var tasks = [];
+  var tasks     = [];
+  var sortOrder = 'createdAt';   /* "createdAt" | "completion" */
 
   /* ── Private helpers ──────────────────────────────────────────────────────── */
 
@@ -388,6 +532,7 @@ var TodoWidget = (function () {
     /* Build the inline edit controls */
     var input = document.createElement('input');
     input.type = 'text';
+    input.className = 'edit-input';   /* applies focused-border styling from CSS */
     input.value = task.title;   /* raw title — not HTML-escaped */
 
     var saveBtn = document.createElement('button');
@@ -484,6 +629,41 @@ var TodoWidget = (function () {
     _render();
   }
 
+  /* ── Sort helpers ────────────────────────────────────────────────────────── */
+
+  /**
+   * Returns a sorted copy of tasks[] without mutating the source array.
+   * "createdAt"  → ascending by task.createdAt (oldest first).
+   * "completion" → incomplete (completed === false) first preserving insertion
+   *                order within each group, then complete tasks.
+   * Requirements: 9.2, 9.3
+   * @returns {Array}
+   */
+  function _sortedTasks() {
+    if (sortOrder === 'completion') {
+      var incomplete = tasks.filter(function (t) { return !t.completed; });
+      var complete   = tasks.filter(function (t) { return t.completed; });
+      return incomplete.concat(complete);
+    }
+    /* Default: "createdAt" — sort ascending by createdAt */
+    return tasks.slice().sort(function (a, b) {
+      return a.createdAt - b.createdAt;
+    });
+  }
+
+  /**
+   * Validates the sort order, updates sortOrder state, persists to
+   * localStorage key "tdl_sort" via Utils.storage.set, and re-renders.
+   * Requirements: 9.4, 9.5
+   * @param {string} order  "createdAt" | "completion"
+   */
+  function _setSort(order) {
+    if (order !== 'createdAt' && order !== 'completion') return;
+    sortOrder = order;
+    Utils.storage.set('tdl_sort', sortOrder);   /* Requirement 9.5: within 500 ms (synchronous) */
+    _render();
+  }
+
   /* ── Core functions ───────────────────────────────────────────────────────── */
 
   /**
@@ -512,8 +692,9 @@ var TodoWidget = (function () {
 
     list.innerHTML = '';
 
-    for (var i = 0; i < tasks.length; i++) {
-      var task = tasks[i];
+    var displayTasks = _sortedTasks();
+    for (var i = 0; i < displayTasks.length; i++) {
+      var task = displayTasks[i];
 
       /* Row container */
       var li = document.createElement('li');
@@ -612,6 +793,18 @@ var TodoWidget = (function () {
      * Requirements: 3.10, 3.11
      */
     init: function () {
+      /* Load persisted sort order (Requirement 9.6, 9.7) */
+      var savedSort = Utils.storage.get('tdl_sort');
+      sortOrder = (savedSort === 'createdAt' || savedSort === 'completion')
+        ? savedSort
+        : 'createdAt';
+
+      /* Sync the select element to reflect the loaded sort order */
+      var sortSelect = document.getElementById('todo-sort-select');
+      if (sortSelect) {
+        sortSelect.value = sortOrder;
+      }
+
       /* Load persisted tasks (or start empty on error) */
       var saved = Utils.storage.get('tdl_tasks');
       if (Array.isArray(saved)) {
@@ -657,6 +850,14 @@ var TodoWidget = (function () {
           }
         });
       }
+
+      /* Mount sort-select change listener (Requirement 9.1, 9.4) */
+      var sortSelectEl = document.getElementById('todo-sort-select');
+      if (sortSelectEl) {
+        sortSelectEl.addEventListener('change', function () {
+          _setSort(sortSelectEl.value);
+        });
+      }
     },
 
     /* Expose internal methods for testing and future task integration */
@@ -668,7 +869,10 @@ var TodoWidget = (function () {
     _confirmEdit:    _confirmEdit,
     _cancelEdit:     _cancelEdit,
     _delete:         _delete,
-    getTasks:        function () { return tasks; }
+    _setSort:        _setSort,
+    _sortedTasks:    _sortedTasks,
+    getTasks:        function () { return tasks; },
+    getSortOrder:    function () { return sortOrder; }
   };
 })();
 
@@ -887,8 +1091,89 @@ var QuickLinksWidget = (function () {
   };
 })();
 
+/* ─── ThemeWidget ───────────────────────────────────────────────────────────── */
+var ThemeWidget = (function () {
+  /* Light / dark mode toggle persisted to localStorage key "tdl_theme".
+     The initial flash-prevention script in <head> applies the saved theme
+     before the browser paints, so this module only needs to manage the
+     toggle interaction and localStorage sync after the page has loaded.
+
+     Internal state: theme — "light" (default) | "dark"
+     DOM target:     #theme-toggle (button in page header)
+     localStorage key: "tdl_theme"
+
+     Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6                             */
+
+  /* ── Internal state ───────────────────────────────────────────────────────── */
+  var theme = 'light';
+
+  /* ── Private helpers ──────────────────────────────────────────────────────── */
+
+  /**
+   * Updates the toggle button label to reflect the currently active theme
+   * so the user always sees what clicking the button will do next.
+   */
+  function _updateButtonLabel() {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    if (theme === 'dark') {
+      btn.textContent = '☀️ Light Mode';
+    } else {
+      btn.textContent = '🌙 Dark Mode';
+    }
+  }
+
+  /* ── Public API ───────────────────────────────────────────────────────────── */
+
+  /**
+   * Applies the given theme to the page and persists it to localStorage.
+   * Sets data-theme attribute on <html>; writes to localStorage key "tdl_theme".
+   * Requirements: 8.2, 8.3, 8.4, 8.5
+   * @param {string} newTheme  "light" | "dark"
+   */
+  function _apply(newTheme) {
+    theme = (newTheme === 'dark') ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    Utils.storage.set('tdl_theme', theme);
+    _updateButtonLabel();
+  }
+
+  /**
+   * Flips the active theme between "light" and "dark" and applies it.
+   * Completes the transition within 100 ms (synchronous DOM attribute update).
+   * Requirements: 8.2, 8.3
+   */
+  function _toggle() {
+    _apply(theme === 'light' ? 'dark' : 'light');
+  }
+
+  return {
+    /**
+     * Reads the saved theme from localStorage (defaults to "light" if absent
+     * or invalid), applies it, then mounts the click listener on #theme-toggle.
+     * Requirements: 8.1, 8.5, 8.6
+     */
+    init: function () {
+      var saved = Utils.storage.get('tdl_theme');
+      var initial = (saved === 'dark' || saved === 'light') ? saved : 'light';
+      _apply(initial);
+
+      var btn = document.getElementById('theme-toggle');
+      if (btn) {
+        btn.addEventListener('click', _toggle);
+      }
+    },
+
+    /* Expose methods for testing (tasks 11.2, 11.3) */
+    _apply:  _apply,
+    _toggle: _toggle,
+    getTheme: function () { return theme; }
+  };
+})();
+
 /* ─── Bootstrap ─────────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', function () {
+  ThemeWidget.init();
   GreetingWidget.init();
   TimerWidget.init();
   TodoWidget.init();
